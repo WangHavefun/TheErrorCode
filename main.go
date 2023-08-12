@@ -1,11 +1,10 @@
 package main
 
-import (
-	initalize "User/initialize"
-)
+import initalize "TheErrorCode/initialize"
 
 func main() {
+
 	initalize.Viper()
 	initalize.Mysql()
-
+	initalize.Gin()
 }

@@ -1,7 +1,7 @@
 package constant
 
 import (
-	"User/config"
+	"TheErrorCode/config"
 	"gorm.io/gorm"
 )
 

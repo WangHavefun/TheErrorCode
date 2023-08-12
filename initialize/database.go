@@ -1,7 +1,7 @@
 package initalize
 
 import (
-	"User/constant"
+	"TheErrorCode/constant"
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"

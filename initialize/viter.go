@@ -1,7 +1,7 @@
 package initalize
 
 import (
-	"User/constant"
+	"TheErrorCode/constant"
 	"github.com/mitchellh/mapstructure"
 	"github.com/spf13/viper"
 	"log"
