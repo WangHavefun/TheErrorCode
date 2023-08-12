@@ -2,6 +2,7 @@ package initalize
 
 import (
 	"TheErrorCode/constant"
+	"TheErrorCode/model"
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -19,4 +20,5 @@ func Mysql() {
 		panic("failed to connect database")
 	}
 	constant.DB = db
+	db.AutoMigrate(&model.User{})
 }

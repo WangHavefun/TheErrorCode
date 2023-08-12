@@ -9,7 +9,7 @@ type UserDao struct {
 }
 
 func (UserDao) AddUser(user *model.User) {
-	constant.DB.Create(user)
+	constant.DB.Create(&user)
 }
 func (UserDao) FindByUsername(username string) (*model.User, error) {
 	var user = model.User{}
