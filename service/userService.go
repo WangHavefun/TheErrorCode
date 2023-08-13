@@ -15,7 +15,7 @@ var userDao = dao.UserDao{}
 
 func (UserService) Register(user *model.User) *resp.DouYinUserRegLogResponse {
 	resp := resp.DouYinUserRegLogResponse{}
-	dbuser, _ := userDao.FindByUsername(user.UserName)
+	dbuser := userDao.FindByUsername(user.UserName)
 	if dbuser.ID != 0 {
 		resp.StatusCode = 1
 		resp.Token = ""
@@ -35,7 +35,7 @@ func (UserService) Register(user *model.User) *resp.DouYinUserRegLogResponse {
 }
 
 func (UserService) Login(user *model.User) *resp.DouYinUserRegLogResponse {
-	dbUser, _ := userDao.FindByUsername(user.UserName)
+	dbUser := userDao.FindByUsername(user.UserName)
 	resp := resp.DouYinUserRegLogResponse{}
 	if dbUser.ID == 0 {
 		resp.StatusCode = 1
@@ -56,5 +56,21 @@ func (UserService) Login(user *model.User) *resp.DouYinUserRegLogResponse {
 	resp.Token = token
 	resp.UserId = dbUser.ID
 	resp.StatusMsg = "登录成功"
+	return &resp
+}
+
+func (s UserService) GetUserInfoFromDB(user model.User) interface{} {
+	userResp := resp.User{}
+	dbUser := userDao.GetById(user.ID)
+	userResp.Avatar = dbUser.Avatar
+	userResp.BackgroundImage = dbUser.BackgroundImage
+	userResp.Id = dbUser.ID
+	userResp.Name = dbUser.Name
+	userResp.Signature = dbUser.Signature
+	resp := resp.UserResp{
+		StatusCode: 0,
+		StatusMsg:  "获取成功",
+		User:       userResp,
+	}
 	return &resp
 }

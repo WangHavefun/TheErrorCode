@@ -4,6 +4,7 @@ import (
 	"TheErrorCode/controller/req"
 	"TheErrorCode/model"
 	"TheErrorCode/service"
+	"TheErrorCode/utils"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -25,8 +26,22 @@ func (UserController) Register(c *gin.Context) {
 }
 
 func (UserController) Login(c *gin.Context) {
+	var userReq = req.DouYinUserRegLogRequest{}
+	c.ShouldBind(&userReq)
 	var user = model.User{}
-	c.ShouldBind(&user)
+	user.UserName = userReq.Username
+	user.Password = userReq.Password
 	resp := userService.Login(&user)
+	c.JSON(http.StatusOK, resp)
+}
+func (UserController) GetUser(c *gin.Context) {
+	userReq := req.DouYinUserRequest{}
+	c.ShouldBind(&userReq)
+	toekn := userReq.Token
+	claims, _ := utils.ValidateJWT(toekn) //解析token获取数据
+	user := model.User{}
+	user.UserName = claims.Username
+	user.ID = claims.ID
+	resp := userService.GetUserInfoFromDB(user)
 	c.JSON(http.StatusOK, resp)
 }

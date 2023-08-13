@@ -6,5 +6,5 @@ type DouYinUserRegLogRequest struct {
 }
 type DouYinUserRequest struct {
 	UserId int64  `form:"user_id"` // 用户id
-	token  string `form:"token"`   // 用户鉴权token
+	Token  string `form:"token"`   // 用户鉴权token
 }

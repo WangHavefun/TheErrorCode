@@ -6,10 +6,10 @@ type DouYinUserRegLogResponse struct {
 	UserId     int64  `json:"userId"`     // 用户id
 	Token      string `json:"token"`      // 用户鉴权token
 }
-type Resp struct {
-	status_code int32       // 状态码，0-成功，其他值-失败
-	status_msg  string      // 返回状态描述
-	Data        interface{} // 数据
+type UserResp struct {
+	StatusCode int32  // 状态码，0-成功，其他值-失败
+	StatusMsg  string // 返回状态描述
+	User       User   `json:"user"` // 数据
 }
 type User struct {
 	Id              int64  `json:"id"`               // 用户id
