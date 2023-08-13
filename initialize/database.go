@@ -25,4 +25,6 @@ func Mysql() {
 	}
 	constant.DB = db
 	db.AutoMigrate(&model.User{})
+	db.AutoMigrate(&model.Follow{})
+	db.AutoMigrate(&model.Video{})
 }

@@ -14,6 +14,7 @@ type UserController struct {
 
 var userService = new(service.UserService)
 
+// 注册
 func (UserController) Register(c *gin.Context) {
 	var userReq = req.DouYinUserRegLogRequest{}
 	c.ShouldBind(&userReq) //绑定参数
@@ -25,6 +26,7 @@ func (UserController) Register(c *gin.Context) {
 
 }
 
+// 登录
 func (UserController) Login(c *gin.Context) {
 	var userReq = req.DouYinUserRegLogRequest{}
 	c.ShouldBind(&userReq)
@@ -34,6 +36,8 @@ func (UserController) Login(c *gin.Context) {
 	resp := userService.Login(&user)
 	c.JSON(http.StatusOK, resp)
 }
+
+// 获取用户信息
 func (UserController) GetUser(c *gin.Context) {
 	userReq := req.DouYinUserRequest{}
 	c.ShouldBind(&userReq)
