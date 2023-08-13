@@ -2,6 +2,7 @@ package initalize
 
 import (
 	"TheErrorCode/constant"
+	"fmt"
 	"github.com/mitchellh/mapstructure"
 	"github.com/spf13/viper"
 	"log"
@@ -16,5 +17,7 @@ func Viper() {
 	}
 	c := viper.AllSettings()                               //读取所有配置为map类型
 	mapstructure.Decode(c["mysql"], &constant.MYSQLCONFIG) //反序列化
+	mapstructure.Decode(c["jwt"], &constant.JWTCONFIG)
+	fmt.Println(constant.JWTCONFIG)
 	viper.WatchConfig()
 }

@@ -8,4 +8,5 @@ import (
 var (
 	MYSQLCONFIG *config.MySqlConfig
 	DB          *gorm.DB
+	JWTCONFIG   *config.Jwt
 )

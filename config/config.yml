@@ -5,6 +5,6 @@ mysql:
   password: "123456"
   db_name: the_error_code
 jwt:
-  secret: 3Bde3BGEbYqtqyEUzW3ry8jKFcaPH17fRmTmqE7MDr05Lwj95uruRKrrkb44TJ4s
-  jwt_ttl: 43200
+  secret: 3Bde3BGEbYqtqyEUzW3ry8jKFcaPH17fRmTmqE7MDr05Lwj95uruRKrrkb44TJ4s  #jwt密钥
+  jwt_ttl: 43200  #jwt时间/秒
 
