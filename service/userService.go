@@ -4,6 +4,7 @@ import (
 	"TheErrorCode/controller/resp"
 	"TheErrorCode/dao"
 	"TheErrorCode/model"
+	"TheErrorCode/utils"
 )
 
 type UserService struct {
@@ -22,8 +23,9 @@ func (UserService) Register(user *model.User) *resp.DouYinUserRegLogResponse {
 		return &resp
 	}
 	userDao.AddUser(user)
+	token, _ := utils.CreateJWT(user.ID, user.UserName)
 	resp.StatusCode = 0
-	resp.Token = ""
+	resp.Token = token
 	resp.StatusMsg = "注册成功"
 	resp.UserId = user.ID
 	return &resp
@@ -46,8 +48,9 @@ func (UserService) Login(user *model.User) *resp.DouYinUserRegLogResponse {
 		resp.StatusMsg = "密码错误"
 		return &resp
 	}
+	token, _ := utils.CreateJWT(dbUser.ID, dbUser.UserName)
 	resp.StatusCode = 0
-	resp.Token = ""
+	resp.Token = token
 	resp.UserId = dbUser.ID
 	resp.StatusMsg = "登录成功"
 	return &resp

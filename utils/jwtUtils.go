@@ -14,7 +14,7 @@ type Claims struct {
 }
 
 // 创建JWT
-func createJWT(id int64, username string) (string, error) {
+func CreateJWT(id int64, username string) (string, error) {
 	claims := &Claims{
 		ID:       id,
 		Username: username,
@@ -24,7 +24,8 @@ func createJWT(id int64, username string) (string, error) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	tokenString, err := token.SignedString(constant.JWTCONFIG.Secret)
+	key := []byte(constant.JWTCONFIG.Secret)
+	tokenString, err := token.SignedString(key)
 	if err != nil {
 		return "", err
 	}
@@ -33,9 +34,10 @@ func createJWT(id int64, username string) (string, error) {
 }
 
 // 验证 JWT
-func validateJWT(tokenString string) (*Claims, error) {
+func ValidateJWT(tokenString string) (*Claims, error) {
+	key := []byte(constant.JWTCONFIG.Secret)
 	token, err := jwt.ParseWithClaims(tokenString, &Claims{}, func(token *jwt.Token) (interface{}, error) {
-		return constant.JWTCONFIG.Secret, nil
+		return key, nil
 	})
 
 	if err != nil {
