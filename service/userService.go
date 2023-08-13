@@ -1,6 +1,7 @@
 package service
 
 import (
+	"TheErrorCode/constant"
 	"TheErrorCode/controller/resp"
 	"TheErrorCode/dao"
 	"TheErrorCode/model"
@@ -22,6 +23,8 @@ func (UserService) Register(user *model.User) *resp.DouYinUserRegLogResponse {
 		resp.UserId = 0
 		return &resp
 	}
+	user.Avatar = constant.DEFAULTIMAGES
+	user.BackgroundImage = constant.DEFAULTIMAGES
 	userDao.AddUser(user)
 	token, _ := utils.CreateJWT(user.ID, user.UserName)
 	resp.StatusCode = 0
