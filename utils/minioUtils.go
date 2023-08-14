@@ -1,17 +1,19 @@
 package utils
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
 	"log"
+	"strings"
 )
 
-func Upload() {
+func Upload(objectName string, file bytes.Buffer) {
 	endpoint := "8.130.66.162:9000"
-	accessKeyID := "rYoZNgAhrvV83QlLowxS"
-	secretAccessKey := "BSFf09j2jCJvdp21Sxzqqsvn5wMdeD45F3lFeh9y"
+	accessKeyID := "minio"
+	secretAccessKey := "minio123456"
 	useSSL := false
 
 	// 初始化 MinIO 客户端
@@ -26,14 +28,39 @@ func Upload() {
 
 	// 上传文件
 	bucketName := "douyin"
-	objectName := "defalut.jpg"
-	filePath := "C:\\Users\\kele\\Desktop\\OIP-C.jpg"
+	//filePath := "C:\\Users\\kele\\Desktop\\defalut.jpg"
 
+	// 使用字节内容上传
+	_, err = client.PutObject(context.Background(), bucketName, objectName, &file, int64(file.Len()), minio.PutObjectOptions{ContentType: getFileContentType(objectName)})
+	if err != nil {
+		log.Fatalln(err)
+	}
 	// 使用文件路径上传
-	_, err = client.FPutObject(context.Background(), bucketName, objectName, filePath, minio.PutObjectOptions{})
 	if err != nil {
 		log.Fatalln(err)
 	}
 
 	fmt.Println("File uploaded successfully")
+}
+func getFileContentType(fileName string) string {
+	returnFileName := fileName[strings.LastIndex(fileName, "."):]
+	if returnFileName != "" {
+		switch returnFileName {
+		case ".jpeg", ".png", ".jpg":
+			return "image/jpeg"
+		case ".mp4":
+			return "video/mp4"
+		case ".html":
+			return "text/html"
+		case ".css":
+			return "text/css"
+		case ".js":
+			return "application/javascript"
+		case ".pdf":
+			return "application/pdf"
+		default:
+			return "application/octet-stream"
+		}
+	}
+	return ""
 }
