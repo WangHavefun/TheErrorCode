@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-func Upload(objectName string, file bytes.Buffer) {
+func Upload(objectName string, file *bytes.Buffer) {
 	endpoint := "8.130.66.162:9000"
 	accessKeyID := "minio"
 	secretAccessKey := "minio123456"
@@ -31,7 +31,7 @@ func Upload(objectName string, file bytes.Buffer) {
 	//filePath := "C:\\Users\\kele\\Desktop\\defalut.jpg"
 
 	// 使用字节内容上传
-	_, err = client.PutObject(context.Background(), bucketName, objectName, &file, int64(file.Len()), minio.PutObjectOptions{ContentType: getFileContentType(objectName)})
+	_, err = client.PutObject(context.Background(), bucketName, objectName, file, int64(file.Len()), minio.PutObjectOptions{ContentType: getFileContentType(objectName)})
 	if err != nil {
 		log.Fatalln(err)
 	}
