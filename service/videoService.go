@@ -72,7 +72,18 @@ func (s VideoService) GetPublicVideoList(feedReq *req.FeedRequest) (*[]vo.VideoV
 		videoVo.Id = value.ID
 		userInfo, _ := userService.GetUserInfoFromDb(value.UserId)
 		videoVo.Author = userInfo
-		nextTime = value.CreatedAt.Unix()
+		nextTime = value.CreatedAt.Unix() //获取最早投稿时间
+		//获取是否点赞
+		if feedReq.Token == "" {
+			videoVo.IsFavorite = false
+		} else {
+			claims, _ := utils.ValidateJWT(feedReq.Token)
+			action := favoriteDao.GetByUserIdAndVideoId(claims.ID, value.ID)
+			videoVo.IsFavorite = action.Favorite
+		}
+		//获取点赞数
+		count := favoriteDao.GetCountByVideoId(value.ID)
+		videoVo.FavoriteCount = count
 		videoVos = append(videoVos, videoVo)
 	}
 	return &videoVos, nextTime

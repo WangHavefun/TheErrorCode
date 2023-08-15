@@ -111,5 +111,8 @@ func (s UserService) GetUserInfoFromDb(userId int64) (*vo.UserVo, error) {
 	//获取个人作品个数
 	count := videoDao.CountByUserId(userId)
 	userVo.WorkCount = count
+	//获取点赞数量
+	count = favoriteDao.GetCountByUserId(userId)
+	userVo.FavoriteCount = count
 	return &userVo, nil
 }

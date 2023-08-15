@@ -22,5 +22,9 @@ func Gin() {
 	{
 		feed.GET("", controller.FeedController{}.Feed)
 	}
+	favorite := r.Group("/douyin/favorite/")
+	{
+		favorite.POST("action/", controller.FavoriteController{}.Action)
+	}
 	r.Run() // 监听并在 0.0.0.0:8080 上启动服务
 }

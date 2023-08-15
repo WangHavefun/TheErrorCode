@@ -27,3 +27,10 @@ type FeedRequest struct {
 	LatestTime int64  `form:"latest_time"` // 可选参数，限制返回视频的最新投稿时间戳，精确到秒，不填表示当前时间
 	Token      string `form:"token"`       // 可选参数，登录用户设置
 }
+
+// 点赞请求体
+type FavoriteActionRequest struct {
+	Token      string `form:"token"`       // 用户鉴权token
+	VideoId    int64  `form:"video_id"`    // 视频id
+	ActionType int32  `form:"action_type"` // 1-点赞，2-取消点赞
+}
