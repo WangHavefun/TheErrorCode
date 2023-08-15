@@ -46,6 +46,6 @@ func (UserController) GetUser(c *gin.Context) {
 	user := model.User{}
 	user.UserName = claims.Username
 	user.ID = claims.ID
-	resp := userService.GetUserInfoFromDB(user)
+	resp := userService.GetUserInfo(user)
 	c.JSON(http.StatusOK, resp)
 }

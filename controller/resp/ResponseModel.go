@@ -1,26 +1,26 @@
 package resp
 
+import "TheErrorCode/vo"
+
 type DouYinUserRegLogResponse struct {
-	StatusCode int32  `json:"statusCode"` // 状态码，0-成功，其他值-失败
-	StatusMsg  string `json:"statusMsg"`  // 返回状态描述
-	UserId     int64  `json:"userId"`     // 用户id
-	Token      string `json:"token"`      // 用户鉴权token
+	StatusCode int32  `json:"status_code"` // 状态码，0-成功，其他值-失败
+	StatusMsg  string `json:"status_msg"`  // 返回状态描述
+	UserId     int64  `json:"userId"`      // 用户id
+	Token      string `json:"token"`       // 用户鉴权token
 }
 type UserResp struct {
-	StatusCode int32  // 状态码，0-成功，其他值-失败
-	StatusMsg  string // 返回状态描述
-	User       User   `json:"user"` // 数据
+	StatusCode int32     `json:"status_code"` // 状态码，0-成功，其他值-失败
+	StatusMsg  string    `json:"status_msg"`  // 返回状态描述
+	User       vo.UserVo `json:"user"`        // 数据
 }
-type User struct {
-	Id              int64  `json:"id"`               // 用户id
-	Name            string `json:"name"`             // 用户名称
-	FollowCount     int64  `json:"follow_count"`     // 关注总数
-	FollowerCount   int64  `json:"follower_count"`   // 粉丝总数
-	IsFollow        bool   `json:"is_follow"`        // true-已关注，false-未关注
-	Avatar          string `json:"avatar"`           //用户头像
-	BackgroundImage string `json:"background_image"` //用户个人页顶部大图
-	Signature       string `json:"signature"`        //个人简介
-	TotalFavorited  int64  `json:"total_favorited"`  //获赞数量
-	WorkCount       int64  `json:"work_count"`       //作品数量
-	FavoriteCount   int64  `json:"favorite_count"`   //点赞数量
+type VideoListResp struct {
+	StatusCode int32        `json:"status_code"` // 状态码，0-成功，其他值-失败
+	StatusMsg  string       `json:"status_msg"`  // 返回状态描述
+	VideoList  []vo.VideoVo `json:"video_list"`  // 用户发布的视频列表
+}
+type FeedResponse struct {
+	StatusCode int32        `json:"status_code"` // 状态码，0-成功，其他值-失败
+	StatusMsg  string       `json:"status_msg"`  // 返回状态描述
+	VideoList  []vo.VideoVo `json:"video_list"`  // 视频列表
+	NextTime   int64        `json:"next_time"`   // 本次返回的视频中，发布最早的时间，作为下次请求时的latest_time
 }

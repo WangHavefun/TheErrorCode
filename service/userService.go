@@ -6,6 +6,7 @@ import (
 	"TheErrorCode/dao"
 	"TheErrorCode/model"
 	"TheErrorCode/utils"
+	"TheErrorCode/vo"
 	"log"
 )
 
@@ -63,9 +64,8 @@ func (UserService) Login(user *model.User) *resp.DouYinUserRegLogResponse {
 	return &resp
 }
 
-func (s UserService) GetUserInfoFromDB(user model.User) interface{} {
-	userResp := resp.User{}
-	dbUser, err := userDao.GetById(user.ID)
+func (s UserService) GetUserInfo(user model.User) interface{} {
+	userVo, err := s.GetUserInfoFromDb(user.ID)
 	if err != nil {
 		log.Println(err.Error())
 		resp := resp.UserResp{
@@ -74,31 +74,42 @@ func (s UserService) GetUserInfoFromDB(user model.User) interface{} {
 		}
 		return &resp
 	}
-	userResp.Avatar = dbUser.Avatar
-	userResp.BackgroundImage = dbUser.BackgroundImage
-	userResp.Id = dbUser.ID
-	userResp.Name = dbUser.Name
-	userResp.Signature = dbUser.Signature
+	resp := resp.UserResp{
+		StatusCode: 0,
+		StatusMsg:  "获取成功",
+		User:       *userVo,
+	}
+	return &resp
+}
+func (s UserService) GetUserInfoFromDb(userId int64) (*vo.UserVo, error) {
+	userVo := vo.UserVo{}
+	dbUser, err := userDao.GetById(userId)
+	if err != nil {
+		return nil, err
+	}
+	userVo.Avatar = dbUser.Avatar
+	userVo.BackgroundImage = dbUser.BackgroundImage
+	userVo.Id = dbUser.ID
+	userVo.Name = dbUser.Name
+	userVo.Signature = dbUser.Signature
 	//获取粉丝
 	fans, err := followDao.GetFollowByFollowId(dbUser.ID)
 	if err != nil {
 		log.Println(err.Error())
-		userResp.FollowerCount = 0
+		userVo.FollowerCount = 0
 	} else {
-		userResp.FollowerCount = int64(len(*fans))
+		userVo.FollowerCount = int64(len(*fans))
 	}
 	//获取关注的
 	follows, err := followDao.GetFollowByFanId(dbUser.ID)
 	if err != nil {
 		log.Println(err.Error())
-		userResp.FollowCount = 0
+		userVo.FollowCount = 0
 	} else {
-		userResp.FollowCount = int64(len(*follows))
+		userVo.FollowCount = int64(len(*follows))
 	}
-	resp := resp.UserResp{
-		StatusCode: 0,
-		StatusMsg:  "获取成功",
-		User:       userResp,
-	}
-	return &resp
+	//获取个人作品个数
+	count := videoDao.CountByUserId(userId)
+	userVo.WorkCount = count
+	return &userVo, nil
 }

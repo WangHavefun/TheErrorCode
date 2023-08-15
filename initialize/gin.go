@@ -16,6 +16,11 @@ func Gin() {
 	publish := r.Group("/douyin/publish")
 	{
 		publish.POST("/action/", controller.VideoController{}.PublishVideo)
+		publish.GET("/list/", controller.VideoController{}.VideoList)
+	}
+	feed := r.Group("/douyin/feed/")
+	{
+		feed.GET("")
 	}
 	r.Run() // 监听并在 0.0.0.0:8080 上启动服务
 }

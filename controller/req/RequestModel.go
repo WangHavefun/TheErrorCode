@@ -21,3 +21,9 @@ type DouYinPublishActionRequest struct {
 	Data  bytes.Buffer `form:"data"`  // 视频数据
 	Title string       `form:"title"` // 视频标题
 }
+
+// feed流请求体
+type FeedRequest struct {
+	LatestTime int64  `form:"latest_time"` // 可选参数，限制返回视频的最新投稿时间戳，精确到秒，不填表示当前时间
+	Token      string `form:"token"`       // 可选参数，登录用户设置
+}

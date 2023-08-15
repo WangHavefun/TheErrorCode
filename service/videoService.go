@@ -6,6 +6,7 @@ import (
 	"TheErrorCode/dao"
 	"TheErrorCode/model"
 	"TheErrorCode/utils"
+	"TheErrorCode/vo"
 	"bytes"
 	"fmt"
 	"io"
@@ -18,6 +19,7 @@ type VideoService struct {
 }
 
 var videoDao = dao.VideoDao{}
+var userService = UserService{}
 
 func (s VideoService) UploadVideoAndSaveVideoToDb(file *multipart.FileHeader, video *model.Video) interface{} {
 	fileName := utils.GenerateSubId() + "." + strings.Split(file.Filename, ".")[1]
@@ -51,6 +53,39 @@ func (s VideoService) UploadVideoAndSaveVideoToDb(file *multipart.FileHeader, vi
 	resp := resp.UserResp{
 		StatusCode: 0,
 		StatusMsg:  "投稿成功",
+	}
+	return resp
+}
+
+// 获取自己投稿的视频
+func (s VideoService) GetVideoList(userId int64) interface{} {
+
+	videos := videoDao.ListByUserId(userId)
+	var videoVos []vo.VideoVo
+	userInfo, err := userService.GetUserInfoFromDb(userId)
+	if err != nil {
+		log.Println(err.Error())
+		resp := resp.VideoListResp{
+			StatusCode: 1,
+			StatusMsg:  "获取失败",
+			VideoList:  nil,
+		}
+		return resp
+	}
+	for _, value := range *videos {
+		videoVo := vo.VideoVo{}
+		videoVo.Title = value.Title
+		videoVo.PlayUrl = value.PlayUrl
+		videoVo.CoverUrl = value.CoverUrl
+		videoVo.Id = value.ID
+		videoVo.Author = userInfo
+		videoVos = append(videoVos, videoVo)
+	}
+
+	resp := resp.VideoListResp{
+		StatusCode: 0,
+		StatusMsg:  "获取成功",
+		VideoList:  videoVos,
 	}
 	return resp
 }
