@@ -28,6 +28,6 @@ func (VideoController) VideoList(c *gin.Context) {
 	var req = req.DouYinUserRequest{}
 	c.ShouldBind(&req)
 	claims, _ := utils.ValidateJWT(req.Token)
-	resp := videoService.GetVideoList(claims.ID)
+	resp := videoService.GetSelfVideoList(claims.ID)
 	c.JSON(http.StatusOK, resp)
 }

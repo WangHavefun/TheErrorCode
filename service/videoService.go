@@ -2,6 +2,7 @@ package service
 
 import (
 	"TheErrorCode/constant"
+	"TheErrorCode/controller/req"
 	"TheErrorCode/controller/resp"
 	"TheErrorCode/dao"
 	"TheErrorCode/model"
@@ -57,8 +58,28 @@ func (s VideoService) UploadVideoAndSaveVideoToDb(file *multipart.FileHeader, vi
 	return resp
 }
 
+// 获取视频流的视频
+func (s VideoService) GetPublicVideoList(feedReq *req.FeedRequest) (*[]vo.VideoVo, int64) {
+	//TODO 增加最新时间
+	var videoVos []vo.VideoVo
+	var nextTime int64
+	videos := videoDao.ListLimitCount(30)
+	for _, value := range *videos {
+		videoVo := vo.VideoVo{}
+		videoVo.Title = value.Title
+		videoVo.PlayUrl = value.PlayUrl
+		videoVo.CoverUrl = value.CoverUrl
+		videoVo.Id = value.ID
+		userInfo, _ := userService.GetUserInfoFromDb(value.UserId)
+		videoVo.Author = userInfo
+		nextTime = value.CreatedAt.Unix()
+		videoVos = append(videoVos, videoVo)
+	}
+	return &videoVos, nextTime
+}
+
 // 获取自己投稿的视频
-func (s VideoService) GetVideoList(userId int64) interface{} {
+func (s VideoService) GetSelfVideoList(userId int64) interface{} {
 
 	videos := videoDao.ListByUserId(userId)
 	var videoVos []vo.VideoVo

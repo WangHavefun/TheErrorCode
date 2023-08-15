@@ -23,3 +23,9 @@ func (VideoDao) CountByUserId(userId int64) (count int64) {
 	constant.DB.Model(&model.Video{}).Where("user_id = ?", userId).Count(&count)
 	return count
 }
+
+func (d VideoDao) ListLimitCount(i int) *[]model.Video {
+	videos := []model.Video{}
+	constant.DB.Model(&videos).Order("created_at").Limit(i).Find(&videos)
+	return &videos
+}
