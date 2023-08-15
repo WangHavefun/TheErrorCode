@@ -37,3 +37,9 @@ func (d FavoriteDao) GetCountByUserId(userId int64) int64 {
 	constant.DB.Model(&model.Action{}).Where("user_id = ? ", userId).Count(&count)
 	return count
 }
+
+func (d FavoriteDao) ListByUserId(userId int64) *[]model.Action {
+	var actions []model.Action
+	constant.DB.Model(&model.Action{}).Where("user_id = ?", userId).Find(&actions)
+	return &actions
+}

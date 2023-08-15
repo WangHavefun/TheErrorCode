@@ -89,6 +89,31 @@ func (s VideoService) GetPublicVideoList(feedReq *req.FeedRequest) (*[]vo.VideoV
 	return &videoVos, nextTime
 }
 
+// 获取自己喜欢的视频列表
+func (VideoService) GetSelfFavoriteVideoList(userId int64) *[]vo.VideoVo {
+	actions := favoriteDao.ListByUserId(userId)
+	var videoVos []vo.VideoVo
+	for _, value := range *actions {
+		video := videoDao.GetById(value.VideoId)
+		videoVo := vo.VideoVo{}
+		videoVo.Title = video.Title
+		videoVo.PlayUrl = video.PlayUrl
+		videoVo.CoverUrl = video.CoverUrl
+		videoVo.Id = video.ID
+		//获取用户信息
+		userInfo, _ := userService.GetUserInfoFromDb(video.UserId)
+		videoVo.Author = userInfo
+		//获取是否点赞
+		videoVo.IsFavorite = true //都查点赞列表了还能不点赞？
+		//获取点赞数
+		count := favoriteDao.GetCountByVideoId(value.ID)
+		videoVo.FavoriteCount = count
+		videoVos = append(videoVos, videoVo)
+	}
+	return &videoVos
+
+}
+
 // 获取自己投稿的视频
 func (s VideoService) GetSelfVideoList(userId int64) interface{} {
 
@@ -111,6 +136,12 @@ func (s VideoService) GetSelfVideoList(userId int64) interface{} {
 		videoVo.CoverUrl = value.CoverUrl
 		videoVo.Id = value.ID
 		videoVo.Author = userInfo
+		//获取是否点赞
+		action := favoriteDao.GetByUserIdAndVideoId(userId, value.ID)
+		videoVo.IsFavorite = action.Favorite
+		//获取点赞数
+		count := favoriteDao.GetCountByVideoId(value.ID)
+		videoVo.FavoriteCount = count
 		videoVos = append(videoVos, videoVo)
 	}
 

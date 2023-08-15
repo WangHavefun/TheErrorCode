@@ -18,3 +18,10 @@ func (FavoriteController) Action(c *gin.Context) {
 	resp := favoriteService.Action(&favoriteActionRequest)
 	c.JSON(http.StatusOK, resp)
 }
+
+func (FavoriteController) List(c *gin.Context) {
+	req := req.DouYinUserRequest{}
+	c.ShouldBind(&req)
+	resp := favoriteService.List(&req)
+	c.JSON(http.StatusOK, resp)
+}

@@ -30,3 +30,14 @@ func (s FavoriteService) Action(r *req.FavoriteActionRequest) interface{} {
 	}
 	return &resp
 }
+
+func (s FavoriteService) List(r *req.DouYinUserRequest) interface{} {
+	videoVos := videoService.GetSelfFavoriteVideoList(r.UserId)
+	resp := resp2.VideoListResp{
+		StatusCode: 1,
+		StatusMsg:  "获取成功",
+		VideoList:  *videoVos,
+	}
+	return &resp
+	//TODO
+}

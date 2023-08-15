@@ -29,3 +29,9 @@ func (d VideoDao) ListLimitCount(i int) *[]model.Video {
 	constant.DB.Model(&videos).Order("created_at desc").Limit(i).Find(&videos)
 	return &videos
 }
+
+func (d VideoDao) GetById(id int64) *model.Video {
+	var video = model.Video{}
+	constant.DB.Model(&video).Where("id = ?", id).Find(&video)
+	return &video
+}
