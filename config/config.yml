@@ -1,8 +1,9 @@
 mysql:
-  host: 8.130.66.162
+#  host: 8.130.66.162
+  host: localhost
   port: "3306"
   username: root
-  password: "123456"
+  password: "12345678"
   db_name: the_error_code
 jwt:
   secret: 3Bde3BGEbYqtqyEUzW3ry8jKFcaPH17fRmTmqE7MDr05Lwj95uruRKrrkb44TJ4s  #jwt密钥

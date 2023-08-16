@@ -84,6 +84,9 @@ func (s VideoService) GetPublicVideoList(feedReq *req.FeedRequest) (*[]vo.VideoV
 		//获取点赞数
 		count := favoriteDao.GetCountByVideoId(value.ID)
 		videoVo.FavoriteCount = count
+		//获取评论数
+		count = commentDao.GetCountByVideoId(value.ID)
+		videoVo.CommentCount = count
 		videoVos = append(videoVos, videoVo)
 	}
 	return &videoVos, nextTime

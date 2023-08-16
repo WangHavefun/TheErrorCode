@@ -31,6 +31,11 @@ func Gin() {
 	comment := r.Group("/douyin/comment/")
 	{
 		comment.POST("action/", controller.CommentController{}.Comment)
+		comment.GET("list/", controller.CommentController{}.List)
+	}
+	relation := r.Group("/douyin/relation/")
+	{
+		relation.POST("action/")
 	}
 	r.Run() // 监听并在 0.0.0.0:8080 上启动服务
 }

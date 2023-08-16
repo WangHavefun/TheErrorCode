@@ -18,3 +18,10 @@ func (CommentController) Comment(c *gin.Context) {
 	resp := commentService.SaveComment(&commentReq)
 	c.JSON(http.StatusOK, resp)
 }
+
+func (CommentController) List(c *gin.Context) {
+	listReq := req.CommentListRequest{}
+	c.ShouldBind(&listReq)
+	resp := commentService.ListComment(&listReq)
+	c.JSON(http.StatusOK, resp)
+}
