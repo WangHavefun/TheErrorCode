@@ -47,3 +47,9 @@ type CommentListRequest struct {
 	Token   string `form:"token"`    // 用户鉴权token
 	VideoId int64  `form:"video_id"` // 视频id
 }
+
+type RelationActionRequest struct {
+	Token      string `form:"token"`       // 用户鉴权token
+	ToUserId   int64  `form:"to_user_id"`  // 对方用户id
+	ActionType int32  `form:"action_type"` // 1-关注，2-取消关注
+}

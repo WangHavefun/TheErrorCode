@@ -25,3 +25,11 @@ func (f *FollowDao) GetFollowByFanId(fanId int64) (*[]model.Follow, error) {
 	}
 	return &follows, nil
 }
+
+func (f *FollowDao) Save(follow *model.Follow) {
+	constant.DB.Model(follow).Create(follow)
+}
+
+func (f *FollowDao) DeleteByFollowIdAndFanId(followId int64, fanId int64) {
+	constant.DB.Model(&model.Follow{}).Where("follow_id = ? and fan_id = ?", followId, fanId).Delete(&model.Follow{})
+}
