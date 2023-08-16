@@ -114,5 +114,8 @@ func (s UserService) GetUserInfoFromDb(userId int64) (*vo.UserVo, error) {
 	//获取点赞数量
 	count = favoriteDao.GetCountByUserId(userId)
 	userVo.FavoriteCount = count
+	//获取获赞数量
+	count = favoriteDao.GetCountByAuthorId(userId)
+	userVo.TotalFavorited = count
 	return &userVo, nil
 }

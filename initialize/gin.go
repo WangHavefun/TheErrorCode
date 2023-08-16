@@ -7,16 +7,17 @@ import (
 
 func Gin() {
 	r := gin.Default()
-	user := r.Group("/douyin/user")
+	user := r.Group("/douyin/user/")
 	{
-		user.POST("/register/", controller.UserController{}.Register)
-		user.POST("/login/", controller.UserController{}.Login)
-		user.GET("/", controller.UserController{}.GetUser)
+		user.POST("register/", controller.UserController{}.Register)
+		user.POST("login/", controller.UserController{}.Login)
+		user.GET("", controller.UserController{}.GetUser)
 	}
-	publish := r.Group("/douyin/publish")
+	publish := r.Group("/douyin/publish/")
 	{
-		publish.POST("/action/", controller.VideoController{}.PublishVideo)
-		publish.GET("/list/", controller.VideoController{}.VideoList)
+
+		publish.POST("action/", controller.VideoController{}.PublishVideo)
+		publish.GET("list/", controller.VideoController{}.VideoList)
 	}
 	feed := r.Group("/douyin/feed/")
 	{
@@ -26,6 +27,10 @@ func Gin() {
 	{
 		favorite.POST("action/", controller.FavoriteController{}.Action)
 		favorite.GET("list/", controller.FavoriteController{}.List)
+	}
+	comment := r.Group("/douyin/comment/")
+	{
+		comment.POST("action/", controller.CommentController{}.Comment)
 	}
 	r.Run() // 监听并在 0.0.0.0:8080 上启动服务
 }

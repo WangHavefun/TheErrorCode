@@ -35,3 +35,8 @@ func (d VideoDao) GetById(id int64) *model.Video {
 	constant.DB.Model(&video).Where("id = ?", id).Find(&video)
 	return &video
 }
+func (d VideoDao) GetByUserId(userId int64) *model.Video {
+	var video = model.Video{}
+	constant.DB.Model(&video).Where("user_id = ?", userId).Find(&video)
+	return &video
+}

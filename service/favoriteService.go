@@ -18,6 +18,8 @@ func (s FavoriteService) Action(r *req.FavoriteActionRequest) interface{} {
 	action := model.Action{}
 	action.UserId = claims.ID
 	action.VideoId = r.VideoId
+	video := videoDao.GetById(r.VideoId)
+	action.AuthorId = video.UserId
 	if r.ActionType == 1 {
 		action.Favorite = true
 	} else {

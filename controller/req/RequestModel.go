@@ -34,3 +34,11 @@ type FavoriteActionRequest struct {
 	VideoId    int64  `form:"video_id"`    // 视频id
 	ActionType int32  `form:"action_type"` // 1-点赞，2-取消点赞
 }
+
+type CommentActionRequest struct {
+	Token       string `form:"token"`        // 用户鉴权token
+	VideoId     int64  `form:"vide_id"`      // 视频id
+	ActionType  int32  `form:"action_type"`  // 1-发布评论，2-删除评论
+	CommentText string `form:"comment_text"` // 用户填写的评论内容，在action_type=1的时候使用
+	CommentId   int64  `form:"comment_id"`   // 要删除的评论id，在action_type=2的时候使用
+}

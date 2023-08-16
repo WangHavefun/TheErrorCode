@@ -19,7 +19,7 @@ func CreateJWT(id int64, username string) (string, error) {
 		ID:       id,
 		Username: username,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Second * time.Duration(constant.JWTCONFIG.JwtTtl)).Unix(), // 有效期 1 小时
+			ExpiresAt: time.Now().Add(time.Second * time.Duration(constant.JWTCONFIG.JwtTtl)).Unix(), // 有效期
 		},
 	}
 

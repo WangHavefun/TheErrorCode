@@ -106,7 +106,7 @@ func (VideoService) GetSelfFavoriteVideoList(userId int64) *[]vo.VideoVo {
 		//获取是否点赞
 		videoVo.IsFavorite = true //都查点赞列表了还能不点赞？
 		//获取点赞数
-		count := favoriteDao.GetCountByVideoId(value.ID)
+		count := favoriteDao.GetCountByVideoId(value.VideoId)
 		videoVo.FavoriteCount = count
 		videoVos = append(videoVos, videoVo)
 	}
