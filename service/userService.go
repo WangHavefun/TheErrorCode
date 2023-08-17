@@ -26,6 +26,7 @@ func (UserService) Register(user *model.User) *resp.DouYinUserRegLogResponse {
 		resp.UserId = 0
 		return &resp
 	}
+	user.Name = user.UserName
 	user.Avatar = constant.DEFAULTIMAGES
 	user.BackgroundImage = constant.DEFAULTIMAGES
 	userDao.AddUser(user)
@@ -81,7 +82,7 @@ func (s UserService) GetUserInfo(user model.User) interface{} {
 	}
 	return &resp
 }
-func (s UserService) GetUserInfoFromDb(userId int64) (*vo.UserVo, error) {
+func (s UserService) GetUserInfoFromDb(userId int64, meId ...int64) (*vo.UserVo, error) {
 	userVo := vo.UserVo{}
 	dbUser, err := userDao.GetById(userId)
 	if err != nil {
@@ -117,5 +118,12 @@ func (s UserService) GetUserInfoFromDb(userId int64) (*vo.UserVo, error) {
 	//获取获赞数量
 	count = favoriteDao.GetCountByAuthorId(userId)
 	userVo.TotalFavorited = count
+	//获取是否关注
+	if len(meId) != 0 {
+		follow := followDao.GetFollowByFollowIdAndFanId(userId, meId[0])
+		if follow.ID != 0 {
+			userVo.IsFollow = true
+		}
+	}
 	return &userVo, nil
 }

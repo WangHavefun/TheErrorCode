@@ -36,3 +36,8 @@ type CommentListResponse struct {
 	StatusMsg   string          `json:"status_msg"`   // 返回状态描述
 	CommentList *[]vo.CommentVo `json:"comment_list"` // 评论列表
 }
+type RelationFollowListResponse struct {
+	StatusCode int32        `json:"status_code"` // 状态码，0-成功，其他值-失败
+	StatusMsg  string       `json:"status_msg"`  // 返回状态描述
+	UserList   *[]vo.UserVo `json:"user_list"`   // 用户信息列表
+}

@@ -18,3 +18,17 @@ func (FollowController) Follow(c *gin.Context) {
 	relationResp := followService.Follow(&relationReq)
 	c.JSON(http.StatusOK, relationResp)
 }
+
+func (FollowController) FollowList(c *gin.Context) {
+	relationReq := req.DouYinUserRequest{}
+	c.ShouldBind(&relationReq)
+	relationResp := followService.FollowList(&relationReq)
+	c.JSON(http.StatusOK, relationResp)
+}
+
+func (FollowController) FanList(c *gin.Context) {
+	relationReq := req.DouYinUserRequest{}
+	c.ShouldBind(&relationReq)
+	relationResp := followService.FanList(&relationReq)
+	c.JSON(http.StatusOK, relationResp)
+}

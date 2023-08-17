@@ -61,6 +61,7 @@ func (s VideoService) UploadVideoAndSaveVideoToDb(file *multipart.FileHeader, vi
 // 获取视频流的视频
 func (s VideoService) GetPublicVideoList(feedReq *req.FeedRequest) (*[]vo.VideoVo, int64) {
 	//TODO 增加最新时间
+
 	var videoVos []vo.VideoVo
 	var nextTime int64
 	videos := videoDao.ListLimitCount(30)
@@ -70,8 +71,14 @@ func (s VideoService) GetPublicVideoList(feedReq *req.FeedRequest) (*[]vo.VideoV
 		videoVo.PlayUrl = value.PlayUrl
 		videoVo.CoverUrl = value.CoverUrl
 		videoVo.Id = value.ID
-		userInfo, _ := userService.GetUserInfoFromDb(value.UserId)
-		videoVo.Author = userInfo
+		if feedReq.Token == "" {
+			userInfo, _ := userService.GetUserInfoFromDb(value.UserId)
+			videoVo.Author = userInfo
+		} else {
+			claims, _ := utils.ValidateJWT(feedReq.Token)
+			userInfo, _ := userService.GetUserInfoFromDb(value.UserId, claims.ID)
+			videoVo.Author = userInfo
+		}
 		nextTime = value.CreatedAt.Unix() //获取最早投稿时间
 		//获取是否点赞
 		if feedReq.Token == "" {
