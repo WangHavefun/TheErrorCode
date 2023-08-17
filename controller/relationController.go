@@ -32,3 +32,10 @@ func (FollowController) FanList(c *gin.Context) {
 	relationResp := followService.FanList(&relationReq)
 	c.JSON(http.StatusOK, relationResp)
 }
+
+func (FollowController) FriendList(c *gin.Context) {
+	relationReq := req.DouYinUserRequest{}
+	c.ShouldBind(&relationReq)
+	relationResp := followService.FriendList(&relationReq)
+	c.JSON(http.StatusOK, relationResp)
+}

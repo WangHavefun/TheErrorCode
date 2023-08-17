@@ -38,6 +38,8 @@ func Gin() {
 		relation.POST("action/", controller.FollowController{}.Follow)         //关注
 		relation.GET("follow/list/", controller.FollowController{}.FollowList) //用户关注列表
 		relation.GET("follower/list/", controller.FollowController{}.FanList)  //用户粉丝列表
+		relation.GET("friend/list/", controller.FollowController{}.FriendList) //用户好友列表
 	}
+
 	r.Run() // 监听并在 0.0.0.0:8080 上启动服务
 }

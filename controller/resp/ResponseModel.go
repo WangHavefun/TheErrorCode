@@ -41,3 +41,8 @@ type RelationFollowListResponse struct {
 	StatusMsg  string       `json:"status_msg"`  // 返回状态描述
 	UserList   *[]vo.UserVo `json:"user_list"`   // 用户信息列表
 }
+type RelationFriendListResponse struct {
+	StatusCode int32              `json:"status_code"` // 状态码，0-成功，其他值-失败
+	StatusMsg  string             `json:"status_msg"`  // 返回状态描述
+	UserList   *[]vo.FriendUserVo `json:"user_list"`   // 用户信息列表
+}

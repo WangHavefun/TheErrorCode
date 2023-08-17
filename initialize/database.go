@@ -29,4 +29,5 @@ func Mysql() {
 	db.AutoMigrate(&model.Video{})
 	db.AutoMigrate(&model.Comment{})
 	db.AutoMigrate(&model.Action{})
+	db.AutoMigrate(&model.Message{})
 }
