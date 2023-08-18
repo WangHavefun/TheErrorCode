@@ -18,3 +18,10 @@ func (MessageController) PostMessage(c *gin.Context) {
 	resp := messageService.PostMessage(messagePostReq)
 	c.JSON(http.StatusOK, &resp)
 }
+
+func (MessageController) MessageList(c *gin.Context) {
+	chatReq := req.MessageChatRequest{}
+	c.ShouldBind(&chatReq)
+	resp := messageService.MessageList(chatReq)
+	c.JSON(http.StatusOK, &resp)
+}

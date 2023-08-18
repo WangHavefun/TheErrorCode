@@ -73,6 +73,7 @@ func (s UserService) GetUserInfo(user model.User) interface{} {
 			StatusCode: 1,
 			StatusMsg:  "用户不存在",
 		}
+
 		return &resp
 	}
 	resp := resp.UserResp{

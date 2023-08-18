@@ -43,7 +43,7 @@ func Gin() {
 	message := r.Group("/douyin/message/")
 	{
 		message.POST("action/", controller.MessageController{}.PostMessage) //消息发送
-		message.GET("chat/")                                                //聊天记录
+		message.GET("chat/", controller.MessageController{}.MessageList)    //聊天记录
 	}
 	r.Run() // 监听并在 0.0.0.0:8080 上启动服务
 }

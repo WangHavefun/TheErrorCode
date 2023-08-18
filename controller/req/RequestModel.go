@@ -60,3 +60,8 @@ type MessagePostRequest struct {
 	ActionType int32  `form:"action_type"` // 1-发送消息
 	Content    string `form:"content"`     // 消息内容
 }
+type MessageChatRequest struct {
+	Token      string `form:"token"`        // 用户鉴权token
+	ToUserId   int64  `form:"to_user_id"`   // 对方用户id
+	PreMsgTime int64  `form:"pre_msg_time"` //上次最新消息的时间（新增字段-apk更新中）
+}
